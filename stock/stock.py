@@ -1,12 +1,15 @@
-#-*-coding:utf-8-*-
+#coding:utf8
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
-from flask import Flask, render_template, session, redirect, url_for, current_app
+from flask import Flask, render_template, session, redirect, url_for, request, send_from_directory
 from flask_bootstrap import Bootstrap
 from spider import getnews, getfund, getstock
 from form import LoginForm
 from flask_mail import Mail, Message
 from config import ADMINS
-
+import os
 app = Flask(__name__)
 app.config.from_object('config')
 
@@ -16,7 +19,8 @@ bootstrap = Bootstrap(app)
 mail = Mail(app)
 
 numbers = ['sh000300']
-
+file1_url = None
+file2_url = None
 # with app.app_context():
 #     # within this block, current_app points to app.
 #     msg = Message('test flask', sender=ADMINS[0], recipients=ADMINS)
@@ -37,6 +41,37 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+@app.route('/onenet')
+def onenet():
+    return render_template('onenet.html')
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+@app.route('/face', methods=['GET', 'POST'])
+def face():
+    global file1_url,file2_url
+    if request.method == 'POST':
+        for fileN in request.files:
+
+                if fileN == 'file1':
+                    file = request.files['file1']
+                    if file and allowed_file(file.filename):
+                        filename = file.filename
+                        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                        file1_url = url_for('uploaded_file', filename=filename)
+                elif fileN == 'file2':
+                    file = request.files['file2']
+                    if file and allowed_file(file.filename):
+                        filename = file.filename
+                        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                        file2_url = url_for('uploaded_file', filename=filename)
+    return  render_template('face.html',file1_url=file1_url,file2_url=file2_url)
+
+
 @app.route('/login', methods=['Get', 'POST'])
 def login():
     form = LoginForm()

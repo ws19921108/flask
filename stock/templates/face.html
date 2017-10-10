@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Stock - Face{% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h1 class="text-center">Stock - Face</h1>
+    </div>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6">
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="file" name="file1">
+                    <input type="submit" value="上传">
+                </form>
+                <img src={{ file1_url }}width="400" height="400">
+            </div>
+            <div class="col-md-6">
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="file" name="file2">
+                    <input type="submit" value="上传">
+                </form>
+                <img src={{ file2_url }} width="400" height="400">
+            </div>
+        </div>
+    </div>
+{% endblock %}
