@@ -15,15 +15,21 @@
                     <input type="file" name="file1">
                     <input type="submit" value="上传">
                 </form>
-                <img src={{ file1_url }}width="400" height="400">
+                <img src={{ file1_url }} width=100%>
             </div>
             <div class="col-md-6">
                 <form method="POST" enctype="multipart/form-data">
                     <input type="file" name="file2">
                     <input type="submit" value="上传">
                 </form>
-                <img src={{ file2_url }} width="400" height="400">
+                <img src={{ file2_url }} width=100%>
             </div>
+        </div>
+    <div class="row">
+            <form method="post">
+                <input type="submit" value="compare" id="compare"/>
+            </form>
+            <br/>
         </div>
     </div>
 {% endblock %}

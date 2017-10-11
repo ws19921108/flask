@@ -55,8 +55,8 @@ def uploaded_file(filename):
 def face():
     global file1_url,file2_url
     if request.method == 'POST':
+        print request.form['compare']
         for fileN in request.files:
-
                 if fileN == 'file1':
                     file = request.files['file1']
                     if file and allowed_file(file.filename):
