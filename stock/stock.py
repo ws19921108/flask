@@ -6,10 +6,13 @@ sys.setdefaultencoding('utf8')
 from flask import Flask, render_template, session, redirect, url_for, request, send_from_directory
 from flask_bootstrap import Bootstrap
 from spider import getnews, getfund, getstock
-from form import LoginForm
+from form import LoginForm, UploadForm1, UploadForm2, CompareForm
 from flask_mail import Mail, Message
 from config import ADMINS
 import os
+import json
+import requests
+
 app = Flask(__name__)
 app.config.from_object('config')
 
@@ -19,8 +22,12 @@ bootstrap = Bootstrap(app)
 mail = Mail(app)
 
 numbers = ['sh000300']
-file1_url = None
-file2_url = None
+
+file_url1 = None
+file_url2 = None
+face_token1 = None
+face_token2 = None
+confidence = None
 # with app.app_context():
 #     # within this block, current_app points to app.
 #     msg = Message('test flask', sender=ADMINS[0], recipients=ADMINS)
@@ -56,26 +63,52 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 @app.route('/face', methods=['GET', 'POST'])
 def face():
-    global file1_url,file2_url
-    if request.method == 'POST':
-        for fileN in request.files:
-                if fileN == 'file1':
-                    file = request.files['file1']
-                    if file and allowed_file(file.filename):
-                        filename = file.filename
-                        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                        file1_url = url_for('uploaded_file', filename=filename)
-                elif fileN == 'file2':
-                    file = request.files['file2']
-                    if file and allowed_file(file.filename):
-                        filename = file.filename
-                        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                        file2_url = url_for('uploaded_file', filename=filename)
-    return  render_template('face.html',file1_url=file1_url,file2_url=file2_url)
+    global file_url1, file_url2, face_token1, face_token2, confidence
+    uploadForm1 = UploadForm1()
+    uploadForm2 = UploadForm2()
+    compareForm = CompareForm()
+    if request.method=='POST':
+        if uploadForm1.submit1.data or uploadForm2.submit2.data:
+            file = request.files['upFile']
+            if file and allowed_file(file.filename):
+                filename = file.filename
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file.save(filepath)
 
-@app.route('/face/compare', methods=["POST"])
-def compare():
-    return 'conpare'
+                url = 'https://api-cn.faceplusplus.com/facepp/v3/detect'
+                files = {'image_file': open(filepath, 'rb')}
+                payload = {
+                    'api_key': 'slVt2rQyoO4ocSRGWx1uwsgg-10fnFvB',
+                    'api_secret': 'gtqgWcTc-uHMaaxc_DkZ84Q-Phi34LFV',
+                }
+
+                req = requests.post(url=url, files=files, data=payload)
+                data = json.loads(req.text)
+                face_token = data['faces'][0]['face_token']
+                file_url = url_for('uploaded_file', filename=filename)
+
+                if uploadForm1.submit1.data:
+                    file_url1 = file_url
+                    face_token1 = face_token
+                if uploadForm2.submit2.data:
+                    file_url2 = file_url
+                    face_token2 = face_token
+        if compareForm.submitCompare.data:
+            url = 'https://api-cn.faceplusplus.com/facepp/v3/compare'
+            payload = {
+                'api_key': 'slVt2rQyoO4ocSRGWx1uwsgg-10fnFvB',
+                'api_secret': 'gtqgWcTc-uHMaaxc_DkZ84Q-Phi34LFV',
+                'face_token1':face_token1,
+                'face_token2': face_token2,
+            }
+            req = requests.post(url=url, data=payload)
+            data = json.loads(req.text)
+
+            confidence = data['confidence']
+
+    return  render_template('face.html',uploadForm1=uploadForm1,uploadForm2=uploadForm2,compareForm=compareForm,
+                            file_url1=file_url1,file_url2=file_url2,face_token1=face_token1,
+                            face_token2=face_token2,confidence=confidence)
 
 @app.route('/login', methods=['Get', 'POST'])
 def login():
