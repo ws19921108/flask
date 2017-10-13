@@ -29,6 +29,9 @@ file2_url = None
 #     mail.send(msg)
 
 
+
+
+
 @app.route('/')
 def index():
     return render_template('index.html', numbers=numbers, news=getnews(), funddatas=getfund('160215'), stockdatas=getstock('sh000001'))
@@ -55,7 +58,6 @@ def uploaded_file(filename):
 def face():
     global file1_url,file2_url
     if request.method == 'POST':
-        print request.form['compare']
         for fileN in request.files:
                 if fileN == 'file1':
                     file = request.files['file1']
@@ -71,6 +73,9 @@ def face():
                         file2_url = url_for('uploaded_file', filename=filename)
     return  render_template('face.html',file1_url=file1_url,file2_url=file2_url)
 
+@app.route('/face/compare', methods=["POST"])
+def compare():
+    return 'conpare'
 
 @app.route('/login', methods=['Get', 'POST'])
 def login():
