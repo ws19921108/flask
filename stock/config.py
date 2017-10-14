@@ -24,5 +24,5 @@ ADMINS = ['ws19921108@163.com']
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'bmp'])
 
-UPLOAD_FOLDER = 'C:\\Users\\Administrator\\Documents\\GitHub\\flask\\stock\\static\\img'
+UPLOAD_FOLDER = 'C:\\Users\\ws199\\Documents\\GitHub\\flask\\stock\\static\\img'
 MAX_CONTENT_LENGTH = 16 * 1024 * 1024
