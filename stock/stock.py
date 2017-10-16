@@ -6,12 +6,13 @@ sys.setdefaultencoding('utf8')
 from flask import Flask, render_template, session, redirect, url_for, request, send_from_directory
 from flask_bootstrap import Bootstrap
 from spider import getnews, getfund, getstock
-from form import LoginForm, UploadForm1, UploadForm2, CompareForm
+from form import *
 from flask_mail import Mail, Message
 from config import ADMINS
 import os
 import json
 import requests
+from handle_face import *
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -23,6 +24,7 @@ mail = Mail(app)
 
 numbers = ['sh000300']
 
+file_url = None
 file_url1 = None
 file_url2 = None
 face_token1 = None
@@ -112,10 +114,23 @@ def face():
 
 @app.route('/addface', methods=['GET', 'POST'])
 def addface():
-
-
-
     return render_template('add_face.html')
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    global file_url
+    user_id = ''
+    confidence = 0
+    upForm = UploadForm()
+    if request.method == 'POST':
+        file = request.files['upFile']
+        if file and allowed_file(file.filename):
+            filename = file.filename
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+            user_id,confidence = SearchFace(faceset_token, filepath)
+            file_url = url_for('uploaded_file', filename=filename)
+    return render_template('search.html',upForm=upForm,file_url=file_url,user_id=user_id,confidence=confidence)
 
 
 

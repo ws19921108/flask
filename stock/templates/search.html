@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Stock - Search{% endblock %}
+
+{% block page_content %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                {{ wtf.quick_form(upForm) }}
+                <img src={{ file_url }} max_width=100% height="400">
+            </div>
+            <div class="col-md-6">
+{#                {{ wtf.quick_form(searchForm) }}#}
+                <br/>
+                <span>姓名：{{ user_id }}</span><br/>
+                <span>匹配度:{{ confidence }}</span><br/>
+                </div>
+
+        </div>
+    </div>
+{% endblock %}
