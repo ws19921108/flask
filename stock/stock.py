@@ -110,6 +110,17 @@ def face():
                             file_url1=file_url1,file_url2=file_url2,face_token1=face_token1,
                             face_token2=face_token2,confidence=confidence)
 
+@app.route('/addface', methods=['GET', 'POST'])
+def addface():
+
+
+
+    return render_template('add_face.html')
+
+
+
+
+
 @app.route('/login', methods=['Get', 'POST'])
 def login():
     form = LoginForm()

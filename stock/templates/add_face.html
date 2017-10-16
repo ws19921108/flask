@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Stock - AddFace{% endblock %}
+
+{% block page_content %}
+
+    <div class="container">
+{##}
+{#        <div class="row">#}
+{#            <div class="col-md-6">#}
+{#                {{ wtf.quick_form(uploadForm1) }}#}
+{#                <img src={{ file_url1 }} max_width=100% height="400">#}
+{#            </div>#}
+{#            <div class="col-md-6">#}
+{#                {{ wtf.quick_form(uploadForm2) }}#}
+{#                <img src={{ file_url2 }} max_width=100% height="400">#}
+{#            </div>#}
+{#        </div>#}
+{#    <div class="row" align="center">#}
+{#            <br/>#}
+{#            {{ wtf.quick_form(compareForm) }}#}
+{#            <br/>#}
+{#            <span>face_token1:{{ face_token1 }}</span><br/>#}
+{#            <span>face_token2:{{ face_token2 }}</span><br/>#}
+{#            <span>confidence:{{ confidence }}</span><br/>#}
+{#        </div>#}
+{#    </div>#}
+{% endblock %}

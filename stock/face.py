@@ -1,4 +1,5 @@
-
+api_key = 'slVt2rQyoO4ocSRGWx1uwsgg-10fnFvB'
+api_secret = 'gtqgWcTc-uHMaaxc_DkZ84Q-Phi34LFV'
 
 
 
