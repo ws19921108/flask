@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Stock - Search{% endblock %}
+
+{% block page_content %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                {{ wtf.quick_form(upForm) }}
+                <img src={{ file_url }} max_width=100% max_height=400>
+            </div>
+            <div class="col-md-4">
+{#                {{ wtf.quick_form(searchForm) }}#}
+                <br/>
+                <span>姓名：<a href="http://www.baidu.com/s?wd={{ user_id }}">{{ user_id }}</a></span><br/>
+                <span>匹配度:{{ confidence }}</span><br/>
+                </div>
+
+        </div>
+    </div>
+{% endblock %}

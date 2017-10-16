@@ -20,3 +20,10 @@ class UploadForm2(FlaskForm):
 class CompareForm(FlaskForm):
     submitCompare = SubmitField('比对')
 
+# class SearchForm(FlaskForm):
+#     submitSearch = SubmitField('搜索')
+
+class UploadForm(FlaskForm):
+    upFile = FileField('图片', validators=[DataRequired()])
+    submitUp = SubmitField('上传')
+
