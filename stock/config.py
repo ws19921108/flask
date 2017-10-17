@@ -22,7 +22,7 @@ MAIL_PASSWORD = '*********'
 ADMINS = ['ws19921108@163.com']
 
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'bmp'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'bmp'])
 
 UPLOAD_FOLDER = basedir + '\\static\\img'
 MAX_CONTENT_LENGTH = 16 * 1024 * 1024

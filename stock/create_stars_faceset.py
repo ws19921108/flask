@@ -25,13 +25,12 @@ args = {
 }
 #
 # while True:
-#     sleep(0.1)
 #     res = RemoveAllFace(faceset_token)
 #     if res != -1:
 #         print 'remove all face'
 #         break
 
-for i in range(25,50):
+for i in range(50,55):
     print i
     args['pn'] = 100*i
     fullurl = baseurl + urlencode(args)
@@ -40,20 +39,17 @@ for i in range(25,50):
     stars = data['data'][0]['result']
     for star in stars:
         while True:
-            sleep(0.1)
             face_token = DetectFaceByUrl(star['pic_4n_78'])
-            print face_token
+            # print face_token
             if face_token != False:
                 break
 
         if face_token != '':
             while True:
-                sleep(0.1)
                 if SetUserID(face_token, star['ename']) == True:
                     break
 
             while True:
-                sleep(0.1)
                 res = AddFace(faceset_token, face_token)
                 if res != False:
                     break

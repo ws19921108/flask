@@ -6,7 +6,7 @@ sys.setdefaultencoding('utf8')
 import json
 import requests
 from time import sleep
-
+from config import ALLOWED_EXTENSIONS
 
 api_key = 'slVt2rQyoO4ocSRGWx1uwsgg-10fnFvB'
 api_secret = 'gtqgWcTc-uHMaaxc_DkZ84Q-Phi34LFV'
@@ -138,7 +138,9 @@ def DetectFaceByUrl(image_url):
     try:
         req = requests.post(url=url,data=payload)
         data = json.loads(req.text)
-        print data
+        # print data
+        if 'error_message' in data and 'IMAGE_ERROR_UNSUPPORTED_FORMAT: image_url' == data['error_message']:
+            return ''
         if len(data['faces']) == 0:
             face_token = ''
         else:
@@ -192,3 +194,7 @@ def PrintAllFaceSets():
         print GetDetail(faceset)
 
 # PrintAllFaceSets()
+
+#
+# image_url = 'http://pic.qiantucdn.com/58pic/14/15/93/19H58PICuZ4_1024.gif!/fw/780/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center'
+# DetectFaceByUrl(image_url)
