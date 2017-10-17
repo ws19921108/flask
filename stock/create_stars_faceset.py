@@ -23,29 +23,26 @@ args = {
     'pn': 0,
     'rn': 100,
 }
+#
+# while True:
+#     sleep(0.1)
+#     res = RemoveAllFace(faceset_token)
+#     if res != -1:
+#         print 'remove all face'
+#         break
 
-while True:
-    sleep(0.1)
-    res = RemoveAllFace(faceset_token)
-    if res != -1:
-        print 'remove all face'
-        break
-
-outFile = open('star_face.csv','w+')
-line = 'name,image_url,face_token\n'
-outFile.write(line)
-count = 0
-for i in range(10):
+for i in range(25,50):
+    print i
     args['pn'] = 100*i
     fullurl = baseurl + urlencode(args)
     response = urlopen(fullurl).read()
     data = json.loads(response)
     stars = data['data'][0]['result']
-    print len(stars)
     for star in stars:
         while True:
             sleep(0.1)
             face_token = DetectFaceByUrl(star['pic_4n_78'])
+            print face_token
             if face_token != False:
                 break
 
@@ -61,11 +58,6 @@ for i in range(10):
                 if res != False:
                     break
 
-        line = star['ename'] + ',' + star['pic_4n_78'] + ',' + face_token + '\n'
-        outFile.write(line)
-        print 'suceese',count
-        count += 1
-outFile.close()
 
 
 

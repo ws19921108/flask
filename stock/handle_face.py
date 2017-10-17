@@ -138,7 +138,7 @@ def DetectFaceByUrl(image_url):
     try:
         req = requests.post(url=url,data=payload)
         data = json.loads(req.text)
-        # print data
+        print data
         if len(data['faces']) == 0:
             face_token = ''
         else:

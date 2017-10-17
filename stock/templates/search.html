@@ -9,14 +9,18 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 {{ wtf.quick_form(upForm) }}
-                <img src={{ file_url }} max_width=100% height="400">
+                <img src={{ file_url }} max_width=100% max_height=400>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
 {#                {{ wtf.quick_form(searchForm) }}#}
                 <br/>
+<<<<<<< HEAD
                 <span>姓名：<a href="http://www.baidu.com/s?wd={{ user_id }}" >{{ user_id }}</a></span><br/>
+=======
+                <span>姓名：<a href="http://www.baidu.com/s?wd={{ user_id }}">{{ user_id }}</a></span><br/>
+>>>>>>> 285813cee194c2b8f0a023c193f8d66f485711e7
                 <span>匹配度:{{ confidence }}</span><br/>
                 </div>
 
