@@ -30,7 +30,7 @@ args = {
 #         print 'remove all face'
 #         break
 
-for i in range(50,55):
+for i in range(70,75):
     print i
     args['pn'] = 100*i
     fullurl = baseurl + urlencode(args)
